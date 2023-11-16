@@ -1,6 +1,7 @@
 import { RxDashboard } from "react-icons/rx";
 import { LuUserCircle2 } from "react-icons/lu";
 import { LiaMoneyBillWaveSolid } from "react-icons/lia";
+import { GoCodeReview } from "react-icons/go";
 
 const itemsList = [
   {
@@ -17,6 +18,11 @@ const itemsList = [
     label: "Data Pembayaran",
     href: "/admin/pembayaran",
     icon: <LiaMoneyBillWaveSolid />,
+  },
+  {
+    label: "Testimonial",
+    href: "/admin/testimonial",
+    icon: <GoCodeReview />,
   },
 ];
 

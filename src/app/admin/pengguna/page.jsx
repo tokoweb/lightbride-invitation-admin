@@ -1,14 +1,11 @@
 "use client";
 
-import DashboardCard from "@/components/dashboard/dashboard-card";
-
 import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import Tooltip from "@mui/material/Tooltip";
 
-import { PiEyeBold } from "react-icons/pi";
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { HiOutlineTrash } from "react-icons/hi";
+import { FiEdit } from "react-icons/fi";
 
 import DataGrid from "@/components/data-grid";
 import generateUser from "@/lib/utils/faker/generate-user";
@@ -53,14 +50,14 @@ const headCells = [
     className: "pr-6",
     render: () => (
       <div className="flex w-full justify-center">
-        <Tooltip title="lihat detail">
+        <Tooltip title="konfirmasi & aktifkan">
           <IconButton color="info">
-            <PiEyeBold />
+            <FiEdit />
           </IconButton>
         </Tooltip>
-        <Tooltip title="konfirmasi & aktifkan">
-          <IconButton color="success">
-            <IoMdCheckmarkCircleOutline />
+        <Tooltip title="hapus">
+          <IconButton color="error">
+            <HiOutlineTrash />
           </IconButton>
         </Tooltip>
       </div>
