@@ -24,7 +24,7 @@ const GetItem = ({ item }) => {
         href={item.href}
         label={item.label}
         className={
-          navigation == item.href
+          navigation.includes(item.href)
             ? "bg-primary text-white hover:bg-primary"
             : "group-hover:bg-slate-100 group-hover:text-primary"
         }

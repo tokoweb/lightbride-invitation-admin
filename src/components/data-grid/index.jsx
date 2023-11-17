@@ -191,7 +191,7 @@ const DataGrid = ({ headCells, data }) => {
                             }}
                             onClick={(event) => selectClick(event, row.id)}
                           />
-                          <div className="h-6 w-[2px] rounded-md bg-black bg-opacity-0 transition duration-100 group-hover:bg-opacity-30" />
+                          <div className="h-6 w-[2px] rounded-md bg-black bg-opacity-0 transition duration-100 group-hover:bg-opacity-20" />
                         </div>
                       </TableCell>
                       {visibleCells.map((cell, i) => (
@@ -208,7 +208,7 @@ const DataGrid = ({ headCells, data }) => {
                               {cell.render ? cell.render(row) : row[cell.id]}
                             </div>
                             {i !== visibleCells.length - 1 && (
-                              <div className="h-6 w-[2px] rounded-md bg-black bg-opacity-0 transition duration-100 group-hover:bg-opacity-30" />
+                              <div className="h-6 w-[2px] rounded-md bg-black bg-opacity-0 transition duration-100 group-hover:bg-opacity-20" />
                             )}
                           </div>
                         </TableCell>

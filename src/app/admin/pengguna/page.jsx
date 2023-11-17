@@ -48,12 +48,14 @@ const headCells = [
     label: "aksi",
     width: "5%",
     className: "pr-6",
-    render: () => (
+    render: ({ id }) => (
       <div className="flex w-full justify-center">
         <Tooltip title="konfirmasi & aktifkan">
-          <IconButton color="info">
-            <FiEdit />
-          </IconButton>
+          <Link href={`/admin/pengguna/edit/${id}`}>
+            <IconButton color="info">
+              <FiEdit />
+            </IconButton>
+          </Link>
         </Tooltip>
         <Tooltip title="hapus">
           <IconButton color="error">

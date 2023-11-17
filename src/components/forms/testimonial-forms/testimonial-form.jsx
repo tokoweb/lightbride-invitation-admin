@@ -1,7 +1,4 @@
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
+import { Paper, Button, TextField, TextareaAutosize } from "@mui/material";
 
 const TestimonialForm = () => {
   return (

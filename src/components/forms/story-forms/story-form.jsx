@@ -3,7 +3,7 @@
 import { Button, IconButton, TextField, TextareaAutosize } from "@mui/material";
 import { useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
-import { BsTrashFill } from "react-icons/bs";
+import { HiOutlineTrash } from "react-icons/hi";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 const StoryForm = () => {
@@ -60,10 +60,10 @@ const StoryForm = () => {
           simpan
         </Button>
         <IconButton
-          color="warning"
+          color="error"
           className="ml-6 mt-4 h-fit p-2 text-xl capitalize"
         >
-          <BsTrashFill />
+          <HiOutlineTrash />
         </IconButton>
       </div>
     </Grid2>
