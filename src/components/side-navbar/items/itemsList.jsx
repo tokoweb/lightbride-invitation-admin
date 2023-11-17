@@ -2,7 +2,8 @@ import { RxDashboard } from "react-icons/rx";
 import { LuUserCircle2 } from "react-icons/lu";
 import { LiaMoneyBillWaveSolid } from "react-icons/lia";
 import { GoCodeReview } from "react-icons/go";
-import { FaDisplay } from "react-icons/fa6";
+import { RiBrush3Line } from "react-icons/ri";
+import { TbAdjustments } from "react-icons/tb";
 
 const itemsList = [
   {
@@ -28,7 +29,12 @@ const itemsList = [
   {
     label: "Tema",
     href: "/admin/tema",
-    icon: <FaDisplay />,
+    icon: <RiBrush3Line />,
+  },
+  {
+    label: "Setting",
+    href: "/admin/setting",
+    icon: <TbAdjustments />,
   },
 ];
 

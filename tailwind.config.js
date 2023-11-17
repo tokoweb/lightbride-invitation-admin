@@ -50,6 +50,9 @@ module.exports = {
           fontWeight: theme("fontWeight.medium"),
           marginBottom: "1.5rem",
         },
+        i: {
+          fontSize: "0.8rem",
+        },
         section: {
           paddingTop: theme("padding.16"),
           paddingBottom: theme("padding.16"),

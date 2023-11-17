@@ -23,9 +23,9 @@ const colors = {
     dark: twColors.green[600],
   },
   error: {
-    main: twColors.red[500],
-    light: twColors.red[400],
-    dark: twColors.red[600],
+    main: twColors.red[400],
+    light: twColors.red[300],
+    dark: twColors.red[500],
   },
 };
 
@@ -60,10 +60,10 @@ const theme = createTheme({
           },
         },
         containedError: {
-          backgroundColor: `${twColors.red[500]} !important`,
+          backgroundColor: `${twColors.red[400]} !important`,
           color: "#fff",
           ":hover": {
-            backgroundColor: `${twColors.red[600]} !important`,
+            backgroundColor: `${twColors.red[500]} !important`,
           },
         },
         containedWarning: {
