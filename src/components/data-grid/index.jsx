@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import PropTypes, { InferProps } from "prop-types";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,7 +11,6 @@ import Checkbox from "@mui/material/Checkbox";
 import TableHeader from "./table-header";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
-import Box from "@mui/material/Box";
 
 import { LuChevronUp } from "react-icons/lu";
 import { useScreenWidth } from "@/lib/hooks/useScreenWidth";
@@ -46,6 +46,21 @@ const stableSort = (array, comparator) => {
     return a[1] - b[1];
   });
   return stabilizedThis.map((el) => el[0]);
+};
+
+const propType = {
+  headCells: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      disablePadding: PropTypes.bool,
+      sorting: PropTypes.bool,
+      label: PropTypes.string.isRequired,
+      width: PropTypes.string,
+      className: PropTypes.string,
+      render: PropTypes.func,
+    }).isRequired,
+  ),
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 const DataGrid = ({ headCells, data }) => {
@@ -149,7 +164,7 @@ const DataGrid = ({ headCells, data }) => {
                       tabIndex={-1}
                       key={row.id}
                       selected={isItemSelected}
-                      className="cursor-pointer"
+                      className="group cursor-pointer"
                       sx={{ "& > *": { borderBottom: "unset" } }}
                     >
                       <TableCell padding="checkbox">
@@ -167,14 +182,17 @@ const DataGrid = ({ headCells, data }) => {
                         </IconButton>
                       </TableCell>
                       <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                          onClick={(event) => selectClick(event, row.id)}
-                        />
+                        <div className="flex items-center justify-between">
+                          <Checkbox
+                            color="primary"
+                            checked={isItemSelected}
+                            inputProps={{
+                              "aria-labelledby": labelId,
+                            }}
+                            onClick={(event) => selectClick(event, row.id)}
+                          />
+                          <div className="h-6 w-[2px] rounded-md bg-black bg-opacity-0 transition duration-100 group-hover:bg-opacity-30" />
+                        </div>
                       </TableCell>
                       {visibleCells.map((cell, i) => (
                         <TableCell
@@ -185,7 +203,14 @@ const DataGrid = ({ headCells, data }) => {
                           scope="row"
                           padding="none"
                         >
-                          {cell.render ? cell.render(row) : row[cell.id]}
+                          <div className="flex items-center justify-between">
+                            <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap p-2">
+                              {cell.render ? cell.render(row) : row[cell.id]}
+                            </div>
+                            {i !== visibleCells.length - 1 && (
+                              <div className="h-6 w-[2px] rounded-md bg-black bg-opacity-0 transition duration-100 group-hover:bg-opacity-30" />
+                            )}
+                          </div>
                         </TableCell>
                       ))}
                     </TableRow>
@@ -227,5 +252,7 @@ const DataGrid = ({ headCells, data }) => {
     </div>
   );
 };
+
+DataGrid.propTypes = propType;
 
 export default DataGrid;
