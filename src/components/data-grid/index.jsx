@@ -162,7 +162,7 @@ const DataGrid = ({ headCells, data }) => {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.id}
+                      key={`row_${row.id}`}
                       selected={isItemSelected}
                       className="group cursor-pointer"
                       sx={{ "& > *": { borderBottom: "unset" } }}
@@ -196,7 +196,7 @@ const DataGrid = ({ headCells, data }) => {
                       </TableCell>
                       {visibleCells.map((cell, i) => (
                         <TableCell
-                          key={i}
+                          key={`cell_${row.id}_${i}`}
                           style={{ width: row.width, textAlign: row.align }}
                           component="th"
                           id={labelId}
