@@ -9,6 +9,7 @@ import { HiOutlineUserGroup } from "react-icons/hi2";
 import { TbClockUp } from "react-icons/tb";
 
 import InvoiceTable from "@/components/invoice-table";
+import Link from "next/link";
 
 const Dashboard = () => {
   return (
@@ -38,7 +39,9 @@ const Dashboard = () => {
       <div className="mt-6 rounded-xl bg-white p-6">
         <div className="mb-4 flex justify-between">
           <h3>Invoice</h3>
-          <Button variant="contained">{"Lihat Lebih >"}</Button>
+          <Link href={"/admin/pembayaran"}>
+            <Button variant="contained">{"Lihat Lebih >"}</Button>
+          </Link>
         </div>
         <InvoiceTable />
       </div>
