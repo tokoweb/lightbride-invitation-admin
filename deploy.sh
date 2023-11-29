@@ -9,15 +9,8 @@ echo "Instaling package"
 
 yarn install
 
-echo "Build Production"
+echo "Build App And Restart"
 
-yarn run build
+yarn deploy:prod
 
-echo "restart apps"
-
-if pm2 show admin.lightbride.com &>/dev/null; then
-    pm2 restart admin.lightbride.com
-else
-    pm2 start yarn --name "admin.lightbride.com" -- start -- -p 3000
-    pm2 save
-fi
+pm2 save --force
