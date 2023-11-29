@@ -15,4 +15,9 @@ yarn run build
 
 echo "restart apps"
 
-pm2 restart admin.lightbride.com
+if pm2 show admin.lightbride.com &>/dev/null; then
+    pm2 restart admin.lightbride.com
+else
+    pm2 start yarn --name "admin.lightbride.com" -- start -- -p 3000
+    pm2 save
+fi
