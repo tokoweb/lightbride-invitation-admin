@@ -14,8 +14,11 @@ nvm use 20
 echo "Instaling package"
 yarn install
 
-echo "Build App And Restart"
+echo "Build App"
 yarn deploy:prod
+
+echo "restart PID"
+pm2 restart admin.lightbride.com
 
 echo "Save PID"
 pm2 save --force
