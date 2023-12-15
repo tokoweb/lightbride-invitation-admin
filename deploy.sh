@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo "Running on Branch $1"
 
 echo "Fetch latest code on branch $1"
