@@ -1,50 +1,97 @@
 "use client";
 
-import { Paper, TextareaAutosize, Button } from "@mui/material";
+import { useEffect } from "react";
+
 import Link from "next/link";
-import React, { useState } from "react";
+
+import LoadingButton from "@mui/lab/LoadingButton";
+import FormHelperText from "@mui/material/FormHelperText";
+import Paper from "@mui/material/Paper";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
+
+import clsx from "clsx";
+import { useForm } from "react-hook-form";
+
+import mapSchema from "@/lib/form-schema/map";
+import useFormApiHandler from "@/lib/hooks/services/useFormApiHandler";
+import useYupValidationResolver from "@/lib/hooks/useYupValidationResolver";
+import { getIframeSrc } from "@/lib/utils";
+import {
+  useGetMapQuery,
+  useUpdateMapMutation,
+} from "@/redux/services/events-api";
+
+import FormControlWrapper from "../form-control-wrapper";
 
 const MapsForm = () => {
-  const [src, setSrc] = useState("");
+  const [fetcher, { data, isLoading }] = useFormApiHandler(
+    useGetMapQuery,
+    useUpdateMapMutation,
+  );
+
+  const { control, handleSubmit, watch, setValue } = useForm({
+    defaultValues: {
+      map: "",
+    },
+    resolver: useYupValidationResolver(mapSchema),
+  });
+
+  useEffect(() => {
+    console.log(data);
+
+    if (data) setValue("map", data.map);
+  }, [data]);
 
   return (
-    <Paper className="w-full rounded-md p-4">
-      <h4 className="text-primary">Data Maps Lokasi</h4>
-      <TextareaAutosize
-        minRows={3}
-        placeholder="Masukan link dari google maps"
-        className="w-full rounded-md border border-gray-300 p-2"
-        onInput={(e) => {
-          const match = e.target.value.match(/src=["']([^"']+)["']/);
-
-          if (match) {
-            setSrc(match[1]);
-          }
-        }}
-      />
-      <Link href={"/map"} className="text-sm text-blue-600 underline">
-        Cara menambah maps
-      </Link>
-      <div className="mt-6 flex justify-end">
-        <Button variant="contained" className="h-fit bg-primary capitalize">
-          Simpan
-        </Button>
-      </div>
-      {src !== "" && (
-        <div className="mt-8">
-          <iframe
-            className="h-96 w-full rounded-md"
-            src={src}
-            allowFullScreen=""
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
+    <Paper className="p-4">
+      <form
+        onSubmit={handleSubmit((d) => {
+          fetcher(new URLSearchParams(d));
+        })}
+      >
+        <h4 className="text-primary">Data Maps Lokasi</h4>
+        <FormControlWrapper
+          control={control}
+          name={"map"}
+          render={({ helperText, error, ...field }) => (
+            <>
+              <TextareaAutosize
+                minRows={3}
+                placeholder="Masukan link dari google maps"
+                className={clsx(
+                  `mt-1 w-full rounded-md border border-gray-300 p-2`,
+                  { error: error },
+                )}
+                {...field}
+              />
+              {error && (
+                <FormHelperText error={error}>{helperText}</FormHelperText>
+              )}
+            </>
+          )}
+        />
+        <Link href={"/maps"} className="text-sm text-blue-600 underline">
+          Cara menambah maps
+        </Link>
+        <div className="mt-6 flex justify-end">
+          <LoadingButton loading={isLoading} variant="contained" type="submit">
+            Simpan
+          </LoadingButton>
         </div>
-      )}
+        {getIframeSrc(watch("map")) && (
+          <div className="mt-8">
+            <iframe
+              className="h-96 w-full rounded-md"
+              src={getIframeSrc(watch("map"))}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        )}
+      </form>
     </Paper>
   );
 };
-
-// <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31686.679895448076!2d107.61830685!3d-6.910325299999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e64c5e8866e5%3A0x37be7ac9d575f7ed!2sGedung%20Sate!5e0!3m2!1sen!2sid!4v1699339387799!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 
 export default MapsForm;

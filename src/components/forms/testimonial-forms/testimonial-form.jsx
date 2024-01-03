@@ -1,53 +1,98 @@
-import { Paper, Button, TextField, TextareaAutosize } from "@mui/material";
+"use client";
+
+import { useEffect } from "react";
+
+import LoadingButton from "@mui/lab/LoadingButton";
+import FormHelperText from "@mui/material/FormHelperText";
+import Paper from "@mui/material/Paper";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
+import TextField from "@mui/material/TextField";
+
+import { useForm } from "react-hook-form";
+
+import testimonialSchema from "@/lib/form-schema/testimonial";
+import useFormApiHandler from "@/lib/hooks/services/useFormApiHandler";
+import useYupValidationResolver from "@/lib/hooks/useYupValidationResolver";
+import {
+  useGetTestimonialQuery,
+  useUpdateTestimonialMutation,
+} from "@/redux/services/testimonial-api";
+
+import FormControlWrapper from "../form-control-wrapper";
 
 const TestimonialForm = () => {
+  const [fetcher, { data, isLoading }] = useFormApiHandler(
+    useGetTestimonialQuery,
+    useUpdateTestimonialMutation,
+  );
+
+  const { control, handleSubmit, setValue } = useForm({
+    defaultValues: {
+      address: "",
+      review: "",
+    },
+    resolver: useYupValidationResolver(testimonialSchema),
+  });
+
+  useEffect(() => {
+    if (!data) return;
+
+    for (const key in data) {
+      if (Object.hasOwnProperty.call(data, key)) {
+        setValue(key, data[key] ?? "");
+      }
+    }
+  }, [data]);
+
   return (
     <Paper className="h-fit w-full rounded-md p-4 lg:w-2/3 xl:w-1/2">
-      <form>
-        <h4 className="text-primary">Testimonial</h4>
-        <div className="flex flex-col gap-4">
+      <form
+        onSubmit={handleSubmit((d) => {
+          fetcher(new URLSearchParams(d));
+        })}
+      >
+        <h3 className="form-title">Testimonial</h3>
+        <div className="form-container">
           <div>
-            <p>Nama lengkap</p>
-            <TextField
-              size="small"
-              name="url"
-              className="w-full !rounded-l-none rounded-r-md"
-              placeholder="Masukan nama lengkap"
+            <p>Alamat</p>
+            <FormControlWrapper
+              name={"address"}
+              control={control}
+              render={(field) => (
+                <TextField
+                  size="small"
+                  fullWidth
+                  placeholder="Masukan nama lengkap"
+                  {...field}
+                />
+              )}
             />
-          </div>
-          <div className="flex flex-col gap-4 md:flex-row">
-            <div className="w-full">
-              <p>Provinsi</p>
-              <TextField
-                size="small"
-                name="url"
-                className="w-full !rounded-l-none rounded-r-md"
-                placeholder="Masukan nama provinsi"
-              />
-            </div>
-            <div className="w-full">
-              <p>Kota</p>
-              <TextField
-                size="small"
-                name="url"
-                className="w-full !rounded-l-none rounded-r-md"
-                placeholder="Masukan nama kota"
-              />
-            </div>
           </div>
           <div>
             <p>Ulasan</p>
-            <TextareaAutosize
-              minRows={3}
-              placeholder="Masukan ulasan anda"
-              className="w-full rounded-md border border-gray-300 p-2"
+            <FormControlWrapper
+              name={"review"}
+              control={control}
+              render={({ error, helperText, ...field }) => (
+                <>
+                  <TextareaAutosize
+                    minRows={3}
+                    placeholder="Masukan salam pembuka whatsapp (bawah)..."
+                    className={error ? "error" : ""}
+                    {...field}
+                  />
+                  {error && (
+                    <FormHelperText error={error}>{helperText}</FormHelperText>
+                  )}
+                </>
+              )}
             />
           </div>
         </div>
         <div className="mt-6 flex justify-end">
-          <Button variant="contained" className="h-fit bg-primary capitalize">
+          <LoadingButton loading={isLoading} variant="contained" type="submit">
             Simpan
-          </Button>
+          </LoadingButton>
         </div>
       </form>
     </Paper>

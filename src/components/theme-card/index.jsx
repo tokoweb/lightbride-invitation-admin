@@ -1,9 +1,9 @@
-import PropTypes from "prop-types";
+import Image from "next/image";
+import Link from "next/link";
 
 import Button from "@mui/material/Button";
 
-import Image from "next/image";
-import Link from "next/link";
+import PropTypes from "prop-types";
 
 const ThemeCard = ({ theme }) => {
   const { active, name, preview, demo, id } = theme;

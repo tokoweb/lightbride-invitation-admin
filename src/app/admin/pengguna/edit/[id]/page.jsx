@@ -2,9 +2,8 @@
 
 import BrideForm from "@/components/forms/bride-forms/bride-form";
 import CoverForm from "@/components/forms/bride-forms/cover-form";
-import AkadForm from "@/components/forms/event-forms/akad-form";
+import EventForm from "@/components/forms/event-forms/event-form";
 import MapsForm from "@/components/forms/event-forms/maps-form";
-import ResepsiForm from "@/components/forms/event-forms/resepsi-form";
 import GalleryForm from "@/components/forms/gallery-forms/gallery-form";
 import VideoForm from "@/components/forms/gallery-forms/video-form";
 import ProfileForm from "@/components/forms/profile-forms/profile-form";
@@ -25,7 +24,7 @@ const EditPengguna = ({ params }) => {
         <div className="flex w-full flex-col gap-6">
           <BrideForm />
           <CoverForm />
-          <AkadForm />
+          <EventForm />
           <MapsForm />
           <SettingForm />
           <div className="rounded-md bg-white p-4">
@@ -35,7 +34,6 @@ const EditPengguna = ({ params }) => {
         <div className="flex w-full flex-col gap-6">
           <BrideForm />
           <MusicForm />
-          <ResepsiForm />
           <VideoForm />
           <GalleryForm />
           <FeaturesForm />

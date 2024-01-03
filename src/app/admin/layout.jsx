@@ -1,16 +1,23 @@
 "use client";
 
-import SideNavbar from "@/components/side-navbar";
-import { usePathname } from "next/navigation";
 import React, { Suspense, useEffect } from "react";
+
+import { usePathname } from "next/navigation";
+
 import { useDispatch } from "react-redux";
-import { setNavigation } from "@/redux/slices/navigation";
+
 import Header from "@/components/header";
+import SideNavbar from "@/components/side-navbar";
+import useRefreshToken from "@/lib/hooks/services/auth/useRefreshToken";
+import { setNavigation } from "@/redux/slices/navigation";
+
 import Loading from "../loading";
 
 const Layout = ({ children }) => {
   const pathName = usePathname();
   const dispatch = useDispatch();
+
+  useRefreshToken();
 
   useEffect(() => {
     if (!pathName || pathName == "") return;
@@ -20,7 +27,7 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <main className="flex w-full">
+      <main className="flex w-full bg-slate-200">
         <SideNavbar />
         <div className="flex max-h-screen max-w-full flex-1 flex-col">
           <Header />

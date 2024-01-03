@@ -1,11 +1,14 @@
 "use client";
 
-import { Paper, Button } from "@mui/material";
-import Masonry from "@mui/lab/Masonry";
 import { useState } from "react";
-import { useDropzone } from "react-dropzone";
+
 import Image from "next/image";
+
+import Masonry from "@mui/lab/Masonry";
+import { Button,Paper } from "@mui/material";
+
 import { produce } from "immer";
+import { useDropzone } from "react-dropzone";
 
 const GalleryForm = () => {
   const [files, setFiles] = useState();
@@ -46,17 +49,19 @@ const GalleryForm = () => {
         <div className="mt-6">
           <Masonry columns={{ xs: 2, md: 3 }} spacing={{ xs: 1, md: 2 }}>
             {files.map((file, i) => (
-              <div key={`image_${i + 1}`} className="relative rounded-md">
+              <div key={`image_${i + 1}`} className="group relative rounded-md">
+                <div className="absolute bottom-0 left-0 right-0 top-0 bg-black bg-opacity-0 transition duration-200 group-hover:bg-opacity-10" />
                 <Image
                   className="rounded-md"
                   src={file.preview}
                   alt={`image_${i + 1}`}
-                  width={200}
+                  width={1000}
                   height={100}
                 />
                 <Button
                   size="small"
                   variant="contained"
+                  color="error"
                   onClick={() => {
                     setFiles(
                       produce((items) => {
@@ -64,7 +69,7 @@ const GalleryForm = () => {
                       }),
                     );
                   }}
-                  className="bg-warning hover:bg-warning-dark absolute bottom-2 left-2 mt-4 h-fit capitalize"
+                  className="absolute bottom-2 left-2 mt-4 h-fit"
                 >
                   Hapus
                 </Button>
@@ -73,7 +78,7 @@ const GalleryForm = () => {
           </Masonry>
         </div>
       )}
-      <div className="mt-6 flex justify-end">
+      <div className="z-10 mt-6 flex justify-end">
         <Button variant="contained" className="h-fit bg-primary capitalize">
           Simpan
         </Button>

@@ -1,29 +1,32 @@
-import { useState } from "react";
+import { use, useState } from "react";
 
+import Link from "next/link";
+
+import LoadingButton from "@mui/lab/LoadingButton";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Divider from "@mui/material/Divider";
 import Popover from "@mui/material/Popover";
 
 import { useDispatch, useSelector } from "react-redux";
+import { LuUser2 } from "react-icons/lu";
+import { MdLogout } from "react-icons/md";
+
+import useLogout from "@lib/hooks/services/auth/useLogout";
+import { useWhoIAmQuery } from "@/redux/services/auth-api";
 import {
   getNavigationOpen,
   setNavigationOpen,
 } from "@/redux/slices/navigation";
 
-import Link from "next/link";
-
-import { LuUser2 } from "react-icons/lu";
-import { LiaMoneyBillWaveAltSolid } from "react-icons/lia";
-import { MdLogout } from "react-icons/md";
-
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [logout, setLogout] = useState(false);
+  const { data, isLoading: profileLoading } = useWhoIAmQuery();
+  const [logoutHander, { isLoading }] = useLogout();
   const open = useSelector(getNavigationOpen);
   const dispatch = useDispatch();
 
@@ -59,8 +62,20 @@ const Header = () => {
         className="flex cursor-pointer items-center gap-2 rounded-lg p-2 px-4 hover:bg-black/5"
         onClick={(e) => setAnchorEl(e.currentTarget)}
       >
-        <Avatar className="w-10" />
-        <p>Demo</p>
+        <Avatar
+          className={`w-10 uppercase ${
+            !profileLoading && data
+              ? "bg-gray-400"
+              : "animate-pulse bg-gray-300"
+          }`}
+        >
+          {data?.name[0]}
+        </Avatar>
+        {!profileLoading && data ? (
+          <p>{data.name}</p>
+        ) : (
+          <div className="h-6 w-16 animate-pulse rounded-md bg-gray-300" />
+        )}
       </div>
       <Popover
         anchorEl={anchorEl}
@@ -76,7 +91,7 @@ const Header = () => {
         }}
       >
         <div className="flex w-52 flex-col gap-1 p-2">
-          <Link href={"/user/profile"}>
+          <Link href={"/admin/profile"}>
             <Button className="flex w-full items-center justify-start p-2 !capitalize text-black">
               <div className="mr-1 text-xl">
                 <LuUser2 />
@@ -103,17 +118,17 @@ const Header = () => {
             Yakin ingin melakukan logout?
           </DialogContent>
           <DialogActions className="pb-5 pr-5">
-            <Button color="error" variant="contained" className="capitalize">
-              Logout
-            </Button>
-            <Button
-              color="primary"
-              className="bg-primary"
-              variant="contained"
-              onClick={() => setLogout(false)}
-            >
+            <Button variant="contained" onClick={() => setLogout(false)}>
               Batal
             </Button>
+            <LoadingButton
+              loading={isLoading}
+              color="error"
+              variant="contained"
+              onClick={() => logoutHander()}
+            >
+              Logout
+            </LoadingButton>
           </DialogActions>
         </form>
       </Dialog>

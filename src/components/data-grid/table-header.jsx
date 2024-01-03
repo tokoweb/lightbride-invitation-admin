@@ -1,13 +1,15 @@
-import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import Checkbox from "@mui/material/Checkbox";
 import { visuallyHidden } from "@mui/utils";
+
+import PropTypes from "prop-types";
+
+import { useScreenWidth } from "@/lib/hooks/utils/useScreenWidth";
 import { cn } from "@/lib/utils";
-import { useScreenWidth } from "@/lib/hooks/useScreenWidth";
 
 const TableHeader = ({
   onSelectAllClick,

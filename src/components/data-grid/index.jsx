@@ -1,20 +1,22 @@
-import { useState, useMemo, useEffect } from "react";
-import PropTypes, { InferProps } from "prop-types";
+import { useEffect,useMemo, useState } from "react";
 
+import Checkbox from "@mui/material/Checkbox";
+import Collapse from "@mui/material/Collapse";
+import IconButton from "@mui/material/IconButton";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import Checkbox from "@mui/material/Checkbox";
-import TableHeader from "./table-header";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
 
+import PropTypes, { InferProps } from "prop-types";
 import { LuChevronUp } from "react-icons/lu";
-import { useScreenWidth } from "@/lib/hooks/useScreenWidth";
+
+import { useScreenWidth } from "@/lib/hooks/utils/useScreenWidth";
+
 import TableCollapse from "./table-collapse";
+import TableHeader from "./table-header";
 
 const descendingComparator = (a, b, orderBy) => {
   if (b[orderBy] < a[orderBy]) {

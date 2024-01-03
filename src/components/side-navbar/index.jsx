@@ -1,14 +1,21 @@
 "use client";
-import { Divider } from "@mui/material";
+import logo from "@public/img/logo.svg";
+import logoFull from "@public/img/logo-full.svg";
+
 import Image from "next/image";
-import Item from "./items";
+
+import { Divider } from "@mui/material";
+
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   getCurrentNavigation,
   getNavigationOpen,
   setNavigationOpen,
 } from "@/redux/slices/navigation";
+
 import Accordion from "./accordion";
+import Item from "./items";
 import itemsList from "./items/itemsList";
 
 const GetItem = ({ item }) => {
@@ -24,7 +31,7 @@ const GetItem = ({ item }) => {
         href={item.href}
         label={item.label}
         className={
-          navigation.includes(item.href)
+          navigation == item.href
             ? "bg-primary text-white hover:bg-primary"
             : "group-hover:bg-slate-100 group-hover:text-primary"
         }
@@ -55,7 +62,7 @@ const SideNavbar = () => {
       <div className="flex w-full justify-between p-4">
         <Image
           className="m-auto"
-          src={"/img/LOGO-02.png"}
+          src={logo}
           alt="Logo"
           width={40}
           height={40}

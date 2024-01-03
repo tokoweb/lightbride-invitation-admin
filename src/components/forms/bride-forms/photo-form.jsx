@@ -1,9 +1,12 @@
 "use client";
 
-import { Button, ClickAwayListener, Divider } from "@mui/material";
-import Croppie from "croppie";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+
+import Image from "next/image";
+
+import { Button, ClickAwayListener, Divider } from "@mui/material";
+
+import Croppie from "croppie";
 import { MdOutlineClose } from "react-icons/md";
 
 const PhotoForm = () => {

@@ -1,9 +1,9 @@
-import { Paper, Button, TextField } from "@mui/material";
+import { Button, Paper, TextField } from "@mui/material";
 
 const ProfileForm = () => {
   return (
     <form>
-      <h4 className="text-primary">Testimonial</h4>
+      <h4 className="text-primary">Profil Pengguna</h4>
       <div className="flex flex-col gap-4">
         <div>
           <p>Username</p>

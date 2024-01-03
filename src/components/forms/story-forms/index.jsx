@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import StoryForm from "./story-form";
+
 import Button from "@mui/material/Button";
+
+import StoryForm from "./story-form";
 
 const StoryForms = () => {
   const [story, setStory] = useState([""]);

@@ -1,15 +1,17 @@
 "use client";
 
-import IconButton from "@mui/material/IconButton";
+import Link from "next/link";
+
 import Chip from "@mui/material/Chip";
+import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 
-import { PiEyeBold } from "react-icons/pi";
 import { LuCheckCircle2 } from "react-icons/lu";
+import { PiEyeBold } from "react-icons/pi";
 
-import Link from "next/link";
-import DataGrid from "../data-grid";
 import generateInvoice from "@/lib/utils/faker/generate-invoice";
+
+import DataGrid from "../data-grid";
 
 const headCells = [
   {
@@ -64,6 +66,6 @@ const headCells = [
 ];
 
 const InvoiceTable = () => {
-  return <DataGrid headCells={headCells} data={generateInvoice(25)} />;
+  return <DataGrid headCells={headCells} data={[]} />;
 };
 export default InvoiceTable;

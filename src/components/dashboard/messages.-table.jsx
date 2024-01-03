@@ -1,15 +1,17 @@
 "use client";
 /* eslint-disable react/display-name */
 import * as React from "react";
+
 import {
   Table,
   TableBody,
-  TableHead,
   TableCell,
-  TableRow,
-  TableContainer,
   tableCellClasses,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from "@mui/material";
+
 import generateMessages from "@/lib/utils/faker/generate-message";
 
 const dummyData = generateMessages(20);

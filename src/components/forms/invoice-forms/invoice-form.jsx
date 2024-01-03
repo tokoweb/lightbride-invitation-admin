@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef, useState } from "react";
+
 import {
   Button,
   Chip,
@@ -11,7 +13,6 @@ import {
   Paper,
   TextField,
 } from "@mui/material";
-import { useRef, useState } from "react";
 
 const InvoiceForm = () => {
   const [open, setOpen] = useState(false);
@@ -111,7 +112,7 @@ const InvoiceForm = () => {
               Konfirmasi
             </Button>
             <Button
-              color="warning"
+              color="error"
               className="bg-red-500"
               variant="contained"
               onClick={() => setOpen(false)}

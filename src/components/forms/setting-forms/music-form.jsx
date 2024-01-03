@@ -1,15 +1,29 @@
 "use client";
-import { Button, Paper } from "@mui/material";
-import React, { useRef, useState } from "react";
+
+import { useRef, useState } from "react";
+
+import LoadingButton from "@mui/lab/LoadingButton";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+
+import { buildFormData } from "@/lib/utils/formData";
+import { useUpdateMusicMutation } from "@/redux/services/settings-api";
 
 const MusicForm = () => {
-  const [fileName, setFileName] = useState("");
+  const [fetcher, { isLoading }] = useUpdateMusicMutation();
+  const [file, setFile] = useState();
   const ref = useRef(null);
 
   return (
-    <Paper className="h-fit w-full rounded-md p-4">
-      <form>
-        <h4 className="text-primary">Musik</h4>
+    <Paper className="h-fit w-full p-4">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+
+          fetcher(buildFormData({ music: file }));
+        }}
+      >
+        <h3 className="form-title">Musik</h3>
         <div className="flex flex-col justify-between md:flex-row">
           <div>
             <p className="text-slate-500">Musik Latar (Max 2MB)</p>
@@ -26,29 +40,39 @@ const MusicForm = () => {
 
                     if (files.length == 0) return;
 
-                    setFileName(files[0].name);
+                    if (e.target.files[0].size > 2097152) {
+                      enqueueSnackbar("File Teralu besar, Maksimal file 2MB", {
+                        variant: "error",
+                      });
+
+                      return;
+                    }
+
+                    setFile(files[0]);
                   }}
                   ref={ref}
                   name="music"
                   multiple={false}
                   type="file"
-                  // accept=".mp3,audio/*"`
+                  accept=".mp3,audio/*"
                   className="hidden"
                 />
               </Button>
-              {fileName !== "" && (
+              {file && (
                 <p className="w-44 overflow-hidden text-ellipsis whitespace-nowrap text-sm">
-                  {fileName}
+                  {file.name}
                 </p>
               )}
             </div>
           </div>
-          <Button
+          <LoadingButton
+            loading={isLoading}
             variant="contained"
-            className="mt-4 h-fit self-end bg-primary capitalize md:mt-0"
+            className="mt-4 self-end md:mt-0"
+            type="submit"
           >
             Simpan
-          </Button>
+          </LoadingButton>
         </div>
       </form>
     </Paper>

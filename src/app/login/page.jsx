@@ -1,44 +1,92 @@
-import { Paper, Button, TextField } from "@mui/material";
+"use client";
+
+import logo from "@public/img/logo.svg";
 
 import Image from "next/image";
-import Link from "next/link";
+
+import LoadingButton from "@mui/lab/LoadingButton";
+import Alert from "@mui/material/Alert";
+import TextField from "@mui/material/TextField";
+
+import { useForm } from "react-hook-form";
+
+import loginSchema from "@lib/form-schema/login";
+import useLogin from "@lib/hooks/services/auth/useLogin";
+import useYupValidationResolver from "@lib/hooks/useYupValidationResolver";
+import FormControlWrapper from "@/components/forms/form-control-wrapper";
 
 const Login = () => {
+  const [login, { isLoading, errMessage }] = useLogin();
+
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    resolver: useYupValidationResolver(loginSchema),
+  });
+
   return (
-    <main className="flex h-screen w-full items-center justify-center bg-[url('/img/hero-bg.png')] bg-cover">
-      <Paper className="w-96 rounded-xl p-6">
-        <form>
+    <>
+      {/* <Navbar /> */}
+      <main className="flex min-h-screen w-screen items-center justify-center">
+        <form
+          onSubmit={handleSubmit((d) => {
+            login(d);
+          })}
+          className="w-full max-w-[500px] px-8"
+        >
           <div className="flex flex-col gap-4">
-            <div>
-              <Image
-                width={140}
-                height={140}
-                alt="wedding invitation logo"
-                src={"/img/logo-lb-01-1.png"}
-                className="m-auto"
-              />
-            </div>
-            <TextField required label="Email" className="text-primary" />
-            <TextField required label="Password" />
+            <Image
+              width={64}
+              alt="ondangan.id logo"
+              src={logo}
+              className="m-auto"
+            />
+            <h1 className="">Masuk</h1>
+            <p>Masukan email dan password untuk masuk ke dashboard</p>
+            <FormControlWrapper
+              name="email"
+              control={control}
+              render={(field) => (
+                <TextField
+                  label="Email"
+                  placeholder="email@mail.com"
+                  {...field}
+                />
+              )}
+            />
+            <FormControlWrapper
+              name="password"
+              control={control}
+              render={(field) => (
+                <TextField
+                  label="Password"
+                  type="password"
+                  placeholder="********"
+                  {...field}
+                />
+              )}
+            />
           </div>
+          {errMessage && (
+            <Alert severity="error" className="mt-4">
+              {errMessage}
+            </Alert>
+          )}
           <div className="pt-4">
-            <Button
+            <LoadingButton
               type="submit"
               variant="contained"
-              className="w-full bg-primary !p-4 hover:bg-primary-dark"
+              loading={isLoading}
+              className="w-full !p-4"
             >
               Sign In
-            </Button>
-            <p variant="small" className="mt-6 flex justify-center">
-              Don&apos;t have an account?
-              <Link href={"/register"} className="ml-1 font-bold">
-                Sign up
-              </Link>
-            </p>
+            </LoadingButton>
           </div>
         </form>
-      </Paper>
-    </main>
+      </main>
+    </>
   );
 };
 

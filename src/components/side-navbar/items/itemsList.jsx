@@ -1,8 +1,8 @@
-import { RxDashboard } from "react-icons/rx";
-import { LuUserCircle2 } from "react-icons/lu";
-import { LiaMoneyBillWaveSolid } from "react-icons/lia";
 import { GoCodeReview } from "react-icons/go";
+import { LiaMoneyBillWaveSolid } from "react-icons/lia";
+import { LuUserCircle2 } from "react-icons/lu";
 import { RiBrush3Line } from "react-icons/ri";
+import { RxDashboard } from "react-icons/rx";
 import { TbAdjustments } from "react-icons/tb";
 
 const itemsList = [

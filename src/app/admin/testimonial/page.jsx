@@ -3,8 +3,9 @@
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 
-import { LuCheckCircle2, LuXCircle } from "react-icons/lu";
 import { HiOutlineTrash } from "react-icons/hi";
+import { LuCheckCircle2, LuXCircle } from "react-icons/lu";
+
 import DataGrid from "@/components/data-grid";
 import generateTestimonial from "@/lib/utils/faker/generate-testimonial";
 

@@ -1,6 +1,8 @@
-import { TextField, Button, IconButton } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import React from "react";
+
+import { Button, IconButton,TextField } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+
 import { BsTrashFill } from "react-icons/bs";
 
 const RekeningForm = () => {
@@ -49,7 +51,7 @@ const RekeningForm = () => {
           simpan
         </Button>
         <IconButton
-          color="warning"
+          color="error"
           className="ml-6 mt-4 h-fit p-2 text-xl capitalize"
         >
           <BsTrashFill />

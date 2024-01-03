@@ -1,16 +1,17 @@
 "use client";
 
-import IconButton from "@mui/material/IconButton";
+import Link from "next/link";
+
 import Chip from "@mui/material/Chip";
+import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 
-import { HiOutlineTrash } from "react-icons/hi";
+import dayjs from "dayjs";
 import { FiEdit } from "react-icons/fi";
+import { HiOutlineTrash } from "react-icons/hi";
 
 import DataGrid from "@/components/data-grid";
 import generateUser from "@/lib/utils/faker/generate-user";
-import Link from "next/link";
-import dayjs from "dayjs";
 
 const headCells = [
   {

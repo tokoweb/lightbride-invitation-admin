@@ -1,15 +1,15 @@
 "use client";
 
-import DashboardCard from "@/components/dashboard/dashboard-card";
+import Link from "next/link";
 
 import Button from "@mui/material/Button";
 
-import { PiHandCoins } from "react-icons/pi";
 import { HiOutlineUserGroup } from "react-icons/hi2";
+import { PiHandCoins } from "react-icons/pi";
 import { TbClockUp } from "react-icons/tb";
 
+import DashboardCard from "@/components/dashboard/dashboard-card";
 import InvoiceTable from "@/components/invoice-table";
-import Link from "next/link";
 
 const Dashboard = () => {
   return (
