@@ -1,0 +1,29 @@
+name: CD
+
+on:
+  push:
+    branches: [ "dev/frama" ]
+
+jobs:
+  DEPLOY:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set env vars (dev/frama)
+        if: endsWith(github.ref, 'dev/frama')
+        run: |
+          echo "RUNNING ON dev/frama"
+          echo "BRANCH=dev/frama" >> $GITHUB_ENV
+
+      - name: SSH and deploy app
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd ${{ secrets.PATH }}
+            bash deploy.sh ${{ env.BRANCH }}
