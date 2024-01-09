@@ -8,7 +8,6 @@ import { useDispatch } from "react-redux";
 
 import Header from "@/components/header";
 import SideNavbar from "@/components/side-navbar";
-import useRefreshToken from "@/lib/hooks/services/auth/useRefreshToken";
 import { setNavigation } from "@/redux/slices/navigation";
 
 import Loading from "../loading";
@@ -16,8 +15,6 @@ import Loading from "../loading";
 const Layout = ({ children }) => {
   const pathName = usePathname();
   const dispatch = useDispatch();
-
-  useRefreshToken();
 
   useEffect(() => {
     if (!pathName || pathName == "") return;

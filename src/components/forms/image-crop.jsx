@@ -151,6 +151,10 @@ const ImageCropper = ({
     if (imageSrc) setDialog(true);
   }, [imageSrc]);
 
+  useEffect(() => {
+    if (!dialog) setImageSrc(null);
+  }, [dialog]);
+
   return (
     <>
       <div

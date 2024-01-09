@@ -6,8 +6,9 @@ export const middleware = (request, response) => {
   const { pathname } = request.nextUrl;
 
   const token = request.cookies.get("token");
+  const refreshToken = request.cookies.get("refresh-token");
 
-  if (pathname.startsWith("/admin") && !token) {
+  if (pathname.startsWith("/admin") && (!token || !refreshToken)) {
     console.log("redirect");
     return NextResponse.redirect(new URL("/login", request.url));
   }
@@ -15,8 +16,6 @@ export const middleware = (request, response) => {
   if (pathname.startsWith("/login") && isValidToken(token?.value)) {
     return NextResponse.redirect(new URL("/admin/dashboard", request.url));
   }
-
-  // console.log(role);
 };
 
 export const config = {

@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { jwtDecode } from "jwt-decode";
 
 const isValidToken = (token) => {

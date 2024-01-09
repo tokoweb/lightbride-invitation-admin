@@ -1,6 +1,7 @@
 "use client";
 
 import tags from "@/constant/tags";
+import objectToQueryString from "@/lib/utils/objectToQueryString";
 import baseApi from "@/redux/base-api";
 
 const testimonialApi = baseApi
@@ -10,27 +11,39 @@ const testimonialApi = baseApi
   .injectEndpoints({
     overrideExisting: module.hot?.status() === "apply",
     endpoints: (builder) => ({
-      getTestimonial: builder.query({
-        query: () => ({
-          url: "/members/dashboard/testimonials",
+      getTestimonials: builder.query({
+        query: (query) => ({
+          url: `/admins/testimonials?${objectToQueryString(query)}`,
           method: "GET",
         }),
         transformResponse: (result) => result.data,
         transformErrorResponse: (result) => result.data,
-        providesTags: [tags.testimonial],
+        providesTags: (result, error, page) =>
+          result?.data
+            ? [
+                ...result.data.results.map(({ id }) => ({
+                  type: tags.testimonial,
+                  id,
+                })),
+                { type: tags.testimonial, id: "PARTIAL-LIST" },
+              ]
+            : [{ type: tags.testimonial, id: "PARTIAL-LIST" }],
       }),
       updateTestimonial: builder.mutation({
-        query: (data) => ({
-          url: "/members/dashboard/testimonials",
+        query: ({ id, data }) => ({
+          url: `/admins/testimonials/${id}`,
           method: "PATCH",
           body: data,
         }),
         transformResponse: (result) => result.data,
         transformErrorResponse: (result) => result.data,
-        providesTags: [tags.testimonial],
+        invalidatesTags: (result, error, id) => [
+          { type: tags.testimonial, id },
+          { type: tags.testimonial, id: "PARTIAL-LIST" },
+        ],
       }),
     }),
   });
 
-export const { useGetTestimonialQuery, useUpdateTestimonialMutation } =
+export const { useGetTestimonialsQuery, useUpdateTestimonialMutation } =
   testimonialApi;
