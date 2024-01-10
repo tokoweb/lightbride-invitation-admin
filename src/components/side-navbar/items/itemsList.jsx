@@ -19,6 +19,10 @@ const itemsList = [
         label: "Kategori Tema",
         href: "/admin/kategori-tema",
       },
+      {
+        label: "Sub-Kategori Tema",
+        href: "/admin/sub-kategori-tema",
+      },
     ],
   },
   {

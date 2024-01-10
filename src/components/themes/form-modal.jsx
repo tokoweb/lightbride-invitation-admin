@@ -1,4 +1,7 @@
+import { useMemo } from "react";
+
 import LoadingButton from "@mui/lab/LoadingButton";
+import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -14,7 +17,10 @@ import { FaX } from "react-icons/fa6";
 import themeSchema from "@/lib/form-schema/theme";
 import useMutationHandler from "@/lib/hooks/services/useMutationHandler";
 import useYupValidationResolver from "@/lib/hooks/useYupValidationResolver";
+import createPagination from "@/lib/utils/createPagination";
 import { buildFormData } from "@/lib/utils/formData";
+import { useGetCategoriesQuery } from "@/redux/services/theme-categories";
+import { useGetSubCategoriesQuery } from "@/redux/services/theme-sub-categories";
 import {
   useCreateThemeMutation,
   useUpdateThemeMutation,
@@ -28,6 +34,22 @@ const ThemeFormModal = ({ defaultValues, id, open, setOpen }) => {
     defaultValues,
     resolver: useYupValidationResolver(themeSchema),
   });
+  const { data: categoriesList } = useGetCategoriesQuery(
+    createPagination({ perPage: 9999 }),
+  );
+  const { data: subCategoriesList } = useGetSubCategoriesQuery(
+    createPagination({ perPage: 9999 }),
+  );
+
+  const categoriesOption = useMemo(
+    () => categoriesList?.map(({ name, id }) => ({ id, label: name })) || [],
+    [categoriesList],
+  );
+
+  const subCategoriesOption = useMemo(
+    () => subCategoriesList?.map(({ name, id }) => ({ id, label: name })) || [],
+    [subCategoriesList],
+  );
 
   const [createTheme, { isLoading: createLoading }] = useMutationHandler(
     useCreateThemeMutation,
@@ -55,6 +77,7 @@ const ThemeFormModal = ({ defaultValues, id, open, setOpen }) => {
     <Dialog open={open} fullWidth onClose={() => setOpen(false)}>
       <form
         onSubmit={handleSubmit((d) => {
+          console.log(d);
           d = buildFormData({
             ...d,
             code_theme: d.name_theme,
@@ -142,6 +165,75 @@ const ThemeFormModal = ({ defaultValues, id, open, setOpen }) => {
                     {...field}
                   />
                 </div>
+              )}
+            />
+          </div>
+
+          <div>
+            <p>Kategori tema</p>
+            <FormControlWrapper
+              control={control}
+              name={`theme_category_id`}
+              render={({ helperText, error, onChange, ...field }) => (
+                <>
+                  <Autocomplete
+                    size="small"
+                    options={categoriesOption}
+                    className="mt-1"
+                    fullWidth
+                    color={error ? "error" : "primary"}
+                    getOptionLabel={(option) => option.label}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        placeholder="Pilih kategori tema"
+                      />
+                    )}
+                    onChange={(_, value) => onChange(value?.id || null)}
+                    {...field}
+                    isOptionEqualToValue={(option, value) =>
+                      option.id === value.id
+                    }
+                  />
+                  <FormHelperText>{helperText}</FormHelperText>
+                </>
+              )}
+            />
+          </div>
+
+          <div>
+            <p>Sub-Kategori tema</p>
+            <FormControlWrapper
+              control={control}
+              name={`theme_sub_category_id`}
+              render={({ helperText, error, onChange, value, ...field }) => (
+                <>
+                  <Autocomplete
+                    value={value}
+                    size="small"
+                    options={subCategoriesOption}
+                    className="mt-1"
+                    fullWidth
+                    color={error ? "error" : "primary"}
+                    getOptionLabel={(option) => option.label}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        placeholder="Pilih sub-kategori tema"
+                      />
+                    )}
+                    onChange={(_, value) =>
+                      onChange(
+                        typeof value === "number" ? value : value?.id || null,
+                      )
+                    }
+                    {...field}
+                    isOptionEqualToValue={(option, value) =>
+                      option.id === value.id
+                    }
+                  />
+                  <FormHelperText>{helperText}</FormHelperText>
+                </>
               )}
             />
           </div>

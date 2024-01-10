@@ -24,7 +24,18 @@ const DeleteButtonPopover = ({
             <HiOutlineTrash />
           </IconButton>
         </Tooltip>
-        <Popover {...bindPopover(popupState)} classes={{ paper: "p-4" }}>
+        <Popover
+          {...bindPopover(popupState)}
+          classes={{ paper: "p-4" }}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+        >
           <p>{popoverLabel}</p>
           <div className="mt-2 flex justify-end gap-2">
             <Button

@@ -14,6 +14,8 @@ const tags = {
   map: "Map",
   themes: "Themes",
   categories: "Categories",
+  subCategories: "Sub Categories",
+  orders: "Orders",
 };
 
 export default tags;

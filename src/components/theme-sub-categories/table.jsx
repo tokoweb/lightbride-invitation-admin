@@ -16,7 +16,6 @@ import { ModuleRegistry } from "@ag-grid-community/core";
 import { AgGridReact } from "@ag-grid-community/react";
 import { FaSearch } from "react-icons/fa";
 import { FaChevronLeft } from "react-icons/fa6";
-import { LuCheckCircle2, LuXCircle } from "react-icons/lu";
 import { MdOutlineAddCircleOutline } from "react-icons/md";
 import { TbEdit } from "react-icons/tb";
 
@@ -24,28 +23,28 @@ import useMutationHandler from "@/lib/hooks/services/useMutationHandler";
 import useDebounce from "@/lib/hooks/utils/useDebounce";
 import createPagination from "@/lib/utils/createPagination";
 import {
-  useDeleteCategoryMutation,
-  useGetCategoriesQuery,
-} from "@/redux/services/theme-categories";
+  useDeleteSubCategoryMutation,
+  useGetSubCategoriesQuery,
+} from "@/redux/services/theme-sub-categories";
 
 import DeleteButtonPopover from "../ui/detele-button-popover";
-import CategoryFormModal from "./form-modal";
+import SubCategoryFormModal from "./form-modal";
 
 ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
-const ThemeCategoriesTable = () => {
+const ThemeSubCategoriesTable = () => {
   const [updateModal, setUpdateModal] = useState(null);
   const [createModal, setCreateModal] = useState(false);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useDebounce("", 300);
-  const { data, isLoading, isFetching } = useGetCategoriesQuery(
+  const { data, isLoading, isFetching } = useGetSubCategoriesQuery(
     createPagination({ page, search }),
   );
 
   const [deleteCategory, { isLoading: deleteLoading }] = useMutationHandler(
-    useDeleteCategoryMutation,
+    useDeleteSubCategoryMutation,
     {
-      success: "Kategori berhasil dihapus",
+      success: "Sub-Kategori berhasil dihapus",
     },
   );
 
@@ -79,7 +78,7 @@ const ThemeCategoriesTable = () => {
             onDelete={() => deleteCategory(id)}
           />
 
-          <CategoryFormModal
+          <SubCategoryFormModal
             id={id}
             defaultValues={{ name }}
             open={updateModal === id}
@@ -93,7 +92,7 @@ const ThemeCategoriesTable = () => {
   return (
     <>
       <div className="mb-4 flex flex-col justify-between gap-4 md:flex-row">
-        <h3 className="text-base text-primary md:text-lg">Data Kategori</h3>
+        <h3 className="text-base text-primary md:text-lg">Data Sub-Kategori</h3>
         <div>
           <TextField
             className="max-w-72 flex-1"
@@ -116,7 +115,7 @@ const ThemeCategoriesTable = () => {
             endIcon={<MdOutlineAddCircleOutline />}
             onClick={() => setCreateModal(true)}
           >
-            Tambah Kategori
+            Tambah Sub-Kategori
           </Button>
         </div>
       </div>
@@ -143,9 +142,9 @@ const ThemeCategoriesTable = () => {
         </IconButton>
       </div>
 
-      <CategoryFormModal open={createModal} setOpen={setCreateModal} />
+      <SubCategoryFormModal open={createModal} setOpen={setCreateModal} />
     </>
   );
 };
 
-export default ThemeCategoriesTable;
+export default ThemeSubCategoriesTable;

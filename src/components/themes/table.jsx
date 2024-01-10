@@ -73,62 +73,66 @@ const ThemesTable = () => {
       resizable: false,
       lockPosition: "right",
       sortable: false,
-      cellRenderer: ({
-        data: { id, is_active, name_theme, image, directory },
-      }) => (
-        <div className="flex w-full justify-end">
-          <Tooltip title="Ubah tema">
-            <span>
-              <IconButton onClick={() => setUpdateModal(id)}>
-                <TbEdit />
-              </IconButton>
-            </span>
-          </Tooltip>
+      cellRenderer: ({ data }) => {
+        const { id, is_active } = data;
 
-          {is_active ? (
-            <Tooltip title="Nonaktifkan">
+        return (
+          <div className="flex w-full justify-end">
+            <Tooltip title="Ubah tema">
               <span>
-                <IconButton
-                  disabled={isLoading || isFetching}
-                  color="success"
-                  onClick={() =>
-                    updateTheme({ id, data: { is_active: false } })
-                  }
-                >
-                  <LuCheckCircle2 />
+                <IconButton onClick={() => setUpdateModal(id)}>
+                  <TbEdit />
                 </IconButton>
               </span>
             </Tooltip>
-          ) : (
-            <Tooltip title="Aktifkan">
-              <span>
-                <IconButton
-                  disabled={isLoading || isFetching}
-                  color="error"
-                  onClick={() => updateTheme({ id, data: { is_active: true } })}
-                >
-                  <LuXCircle />
-                </IconButton>
-              </span>
-            </Tooltip>
-          )}
 
-          <DeleteButtonPopover
-            loading={deleteLoading}
-            tooltipTitle={"Hapus tema"}
-            popoverLabel="Hapus Tema Ini?"
-            onDelete={() => deleteTheme(id)}
-          />
+            {is_active ? (
+              <Tooltip title="Nonaktifkan">
+                <span>
+                  <IconButton
+                    disabled={isLoading || isFetching}
+                    color="success"
+                    onClick={() =>
+                      updateTheme({ id, data: { is_active: false } })
+                    }
+                  >
+                    <LuCheckCircle2 />
+                  </IconButton>
+                </span>
+              </Tooltip>
+            ) : (
+              <Tooltip title="Aktifkan">
+                <span>
+                  <IconButton
+                    disabled={isLoading || isFetching}
+                    color="error"
+                    onClick={() =>
+                      updateTheme({ id, data: { is_active: true } })
+                    }
+                  >
+                    <LuXCircle />
+                  </IconButton>
+                </span>
+              </Tooltip>
+            )}
 
-          {/* edit modal */}
-          <ThemeFormModal
-            id={id}
-            defaultValues={{ image, name_theme, directory }}
-            open={updateModal === id}
-            setOpen={setUpdateModal}
-          />
-        </div>
-      ),
+            <DeleteButtonPopover
+              loading={deleteLoading}
+              tooltipTitle={"Hapus tema"}
+              popoverLabel="Hapus Tema Ini?"
+              onDelete={() => deleteTheme(id)}
+            />
+
+            {/* edit modal */}
+            <ThemeFormModal
+              id={id}
+              defaultValues={data}
+              open={updateModal === id}
+              setOpen={setUpdateModal}
+            />
+          </div>
+        );
+      },
     },
   ];
 
