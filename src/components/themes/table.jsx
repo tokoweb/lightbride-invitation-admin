@@ -126,7 +126,11 @@ const ThemesTable = () => {
             {/* edit modal */}
             <ThemeFormModal
               id={id}
-              defaultValues={data}
+              defaultValues={{
+                ...data,
+                theme_category_id: data.themeCategory,
+                theme_sub_category_id: data.themeSubCategory,
+              }}
               open={updateModal === id}
               setOpen={setUpdateModal}
             />

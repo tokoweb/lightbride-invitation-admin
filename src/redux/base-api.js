@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Mutex } from "async-mutex";
 import Cookies from "js-cookie";
@@ -28,7 +30,10 @@ const getRefreshedToken = async () => {
   if (result.code === 200) {
     Cookies.set("token", result.data.token);
   } else {
-    throw result.message;
+    Cookies.remove("token");
+    Cookies.remove("refresh-token");
+
+    redirect("/login");
   }
 };
 

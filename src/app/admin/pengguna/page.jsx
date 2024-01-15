@@ -1,6 +1,6 @@
 "use client";
 
-import OrdersTable from "@/components/orders/table";
+import UsersTable from "@/components/users/table";
 
 const Pengguna = () => {
   return (
@@ -9,7 +9,7 @@ const Pengguna = () => {
         <h3>Data Pengguna</h3>
       </div>
       <div className="mt-6 rounded-xl bg-white p-6">
-        <OrdersTable />
+        <UsersTable />
       </div>
     </>
   );

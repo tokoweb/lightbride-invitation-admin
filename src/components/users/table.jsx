@@ -27,14 +27,16 @@ import createPagination from "@/lib/utils/createPagination";
 import {
   useDeleteOrderMutation,
   useGetOrdersQuery,
-} from "@/redux/services/orders";
+} from "@/redux/services/orders-api";
 
 import DeleteButtonPopover from "../ui/detele-button-popover";
+import UserFormModal from "./form-modal";
 
 ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
-const OrdersTable = () => {
+const UsersTable = () => {
   const [page, setPage] = useState(1);
+  const [updateModal, setUpdateModal] = useState(false);
   const [search, setSearch] = useDebounce("", 300);
   const { data, isLoading, isFetching } = useGetOrdersQuery(
     createPagination({ page, search, sort: "id" }),
@@ -99,6 +101,12 @@ const OrdersTable = () => {
             popoverLabel="Hapus pengguna Ini?"
             onDelete={() => deleteCategory(id)}
           />
+
+          <UserFormModal
+            id={id}
+            open={updateModal === id}
+            setOpen={setUpdateModal}
+          />
         </div>
       ),
     },
@@ -148,4 +156,4 @@ const OrdersTable = () => {
   );
 };
 
-export default OrdersTable;
+export default UsersTable;
