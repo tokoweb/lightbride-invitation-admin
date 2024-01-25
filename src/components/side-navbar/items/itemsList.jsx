@@ -23,11 +23,15 @@ const itemsList = [
         label: "Sub-Kategori Tema",
         href: "/admin/sub-kategori-tema",
       },
+      {
+        label: "Data Pengguna",
+        href: "/admin/pengguna",
+      },
     ],
   },
   {
-    label: "Data Pengguna",
-    href: "/admin/pengguna",
+    label: "Data Orderan",
+    href: "/admin/orders",
     icon: <LuUserCircle2 />,
   },
   {

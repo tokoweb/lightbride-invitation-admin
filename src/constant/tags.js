@@ -16,6 +16,9 @@ const tags = {
   categories: "Categories",
   subCategories: "Sub Categories",
   orders: "Orders",
+  socialMedia: "Social Media",
+  rekening: "Rekening",
+  payments: "Payments",
 };
 
 export default tags;

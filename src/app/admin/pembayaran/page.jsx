@@ -1,4 +1,4 @@
-import InvoiceTable from "@/components/invoice-table";
+import PaymentTable from "@/components/payments-table";
 
 const Pembayaran = () => {
   return (
@@ -7,7 +7,7 @@ const Pembayaran = () => {
         <h3>Data Pembayaran</h3>
       </div>
       <div className="mt-6 rounded-xl bg-white p-6">
-        <InvoiceTable />
+        <PaymentTable />
       </div>
     </>
   );

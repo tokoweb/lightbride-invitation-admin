@@ -33,7 +33,9 @@ const getRefreshedToken = async () => {
     Cookies.remove("token");
     Cookies.remove("refresh-token");
 
-    redirect("/login");
+    const pathname = window?.location?.pathname;
+
+    redirect(`/login${pathname ? `?fallback=${pathname}` : ""}`);
   }
 };
 

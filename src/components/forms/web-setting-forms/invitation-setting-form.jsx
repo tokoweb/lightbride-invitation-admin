@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 
 const InvitationSettingForm = () => {
   return (
-    <Paper className="h-fit w-full rounded-md p-4 lg:w-full xl:w-1/2">
+    <Paper className="h-fit w-full rounded-md p-4 xl:w-[calc(50%-0.75rem)]">
       <form>
         <h4 className="text-primary">Setting Undangan</h4>
         <div className="flex flex-col gap-4">

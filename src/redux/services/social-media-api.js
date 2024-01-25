@@ -3,34 +3,34 @@
 import tags from "@/constant/tags";
 import baseApi from "@/redux/base-api";
 
-const brideGroomApi = baseApi
+const socialMediaApi = baseApi
   .enhanceEndpoints({
-    addTagTypes: [tags.brideGroom],
+    addTagTypes: [tags.socialMedia],
   })
   .injectEndpoints({
     overrideExisting: module.hot?.status() === "apply",
     endpoints: (builder) => ({
-      getBrideGroom: builder.query({
+      getSocialMedia: builder.query({
         query: () => ({
-          url: "/members/dashboard/brides-grooms-data",
+          url: "/admins/media",
           method: "GET",
         }),
         transformResponse: (result) => result.data,
         transformErrorResponse: (result) => result.data,
-        providesTags: [tags.brideGroom],
+        providesTags: [tags.socialMedia],
       }),
-      updateBrideGroom: builder.mutation({
+      updateSocialMedia: builder.mutation({
         query: (data) => ({
-          url: "/members/dashboard/brides-grooms-data",
-          method: "PATCH",
+          url: "admins/media",
+          method: "POST",
           body: data,
         }),
         transformResponse: (result) => result.data,
         transformErrorResponse: (result) => result.data,
-        providesTags: [tags.brideGroom],
+        providesTags: [tags.socialMedia],
       }),
     }),
   });
 
-export const { useGetBrideGroomQuery, useUpdateBrideGroomMutation } =
-  brideGroomApi;
+export const { useGetSocialMediaQuery, useUpdateSocialMediaMutation } =
+  socialMediaApi;

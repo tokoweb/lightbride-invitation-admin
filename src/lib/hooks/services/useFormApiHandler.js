@@ -10,10 +10,10 @@ import { enqueueSnackbar } from "notistack";
  * @param {*} setter RTK query update hook
  * @returns ```[fetcher, {data, isLoading, error, response}]```
  * @example ```
- * const [fetcher,{data, isLoading, erro, response}] = useFormApiHandler(useGetQuery, useUpdateMutation)
+ * const [fetcher,{data, isLoading, error, response}] = useFormApiHandler(useGetQuery, useUpdateMutation, {success, error})
  * ```
  */
-const useFormApiHandler = (getter, setter) => {
+const useFormApiHandler = (getter, setter, options = {}) => {
   const { data, isLoading: dataLoading } = getter();
   const [fetcher, { isLoading: fetchLoading, error, data: response }] =
     setter();
@@ -22,13 +22,13 @@ const useFormApiHandler = (getter, setter) => {
     try {
       await fetcher(data).unwrap();
 
-      enqueueSnackbar("Data berhasil disimpan!", {
+      enqueueSnackbar(options.success || "Data berhasil disimpan!", {
         variant: "success",
       });
     } catch (err) {
       console.error(err);
 
-      enqueueSnackbar(err.message, {
+      enqueueSnackbar(options.error || err.message, {
         variant: "error",
       });
     }
@@ -36,7 +36,7 @@ const useFormApiHandler = (getter, setter) => {
 
   return [
     fetchHandler,
-    { data, response, isLoading: fetchLoading && dataLoading, error },
+    { data, response, isLoading: fetchLoading || dataLoading, error },
   ];
 };
 

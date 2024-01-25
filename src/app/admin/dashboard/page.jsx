@@ -9,9 +9,16 @@ import { PiHandCoins } from "react-icons/pi";
 import { TbClockUp } from "react-icons/tb";
 
 import DashboardCard from "@/components/dashboard/dashboard-card";
-import InvoiceTable from "@/components/invoice-table";
+import PaymentTable from "@/components/payments-table";
+import createPagination from "@/lib/utils/createPagination";
+import formatToRp from "@/lib/utils/formatToRp";
+import { useGetDashboardQuery } from "@/redux/services/dashboard-api";
 
 const Dashboard = () => {
+  const { data } = useGetDashboardQuery(createPagination({ limit: 100 }));
+
+  console.log(data);
+
   return (
     <>
       <div className="mb-3 flex items-center justify-between px-2">
@@ -22,17 +29,17 @@ const Dashboard = () => {
           <DashboardCard
             icon={<PiHandCoins />}
             label="Total Keuntungan"
-            value={"Rp 270.000"}
+            value={formatToRp(data?.totalProfit || 0)}
           />
           <DashboardCard
             icon={<HiOutlineUserGroup />}
             label="Total Pengguna"
-            value={7}
+            value={data?.totalUsers || 0}
           />
           <DashboardCard
             icon={<TbClockUp />}
             label="Pending Request"
-            value={0}
+            value={data?.totalPayments || 0}
           />
         </div>
       </div>
@@ -43,7 +50,7 @@ const Dashboard = () => {
             <Button variant="contained">{"Lihat Lebih >"}</Button>
           </Link>
         </div>
-        <InvoiceTable />
+        <PaymentTable summary defaultData={data?.payments} />
       </div>
     </>
   );
