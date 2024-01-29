@@ -5,7 +5,10 @@ import "@ag-grid-community/styles/ag-theme-quartz.css";
 
 import { useRef, useState } from "react";
 
+import Link from "next/link";
+
 import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
@@ -23,66 +26,54 @@ import useMutationHandler from "@/lib/hooks/services/useMutationHandler";
 import useDebounce from "@/lib/hooks/utils/useDebounce";
 import createPagination from "@/lib/utils/createPagination";
 import {
-  useDeleteSubCategoryMutation,
-  useGetSubCategoriesQuery,
-} from "@/redux/services/theme-sub-categories";
+  useDeleteArticleMutation,
+  useGetArticlesQuery,
+} from "@/redux/services/articles-api";
 
 import DeleteButtonPopover from "../ui/detele-button-popover";
-import SubCategoryFormModal from "./form-modal";
 
 ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
-const ThemeSubCategoriesTable = () => {
-  const [updateModal, setUpdateModal] = useState(null);
-  const [createModal, setCreateModal] = useState(false);
+const ArticleTable = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useDebounce("", 300);
-  const { data, isLoading, isFetching } = useGetSubCategoriesQuery(
-    createPagination({ page, search }),
+  const { data } = useGetArticlesQuery(
+    createPagination({ page, search, sort: "updated_at" }),
   );
 
-  const [deleteCategory, { isLoading: deleteLoading }] = useMutationHandler(
-    useDeleteSubCategoryMutation,
-    {
-      success: "Sub-Kategori berhasil dihapus",
-    },
+  const [deletArticle, { isLoading }] = useMutationHandler(
+    useDeleteArticleMutation,
+    { success: "Data artikel berhasil dihapus!" },
   );
 
   const columnsDef = [
     {
-      field: "name",
-      headerName: "Kategori",
+      field: "title",
+      headerName: "Judul Artikel",
       flex: 1,
     },
     {
       field: "action",
       headerName: "Aksi",
-      width: 100,
+      width: 120,
       resizable: false,
       lockPosition: "right",
       sortable: false,
-      cellRenderer: ({ data: { id, name } }) => (
-        <div className="flex w-full justify-end">
-          <Tooltip title="Ubah tema">
-            <span>
-              <IconButton onClick={() => setUpdateModal(id)}>
+      cellRenderer: ({ data: { id } }) => (
+        <div className="flex gap-1">
+          <Tooltip title="Ubah artikel">
+            <Link href={`/admin/artikel/${id}`}>
+              <IconButton>
                 <TbEdit />
               </IconButton>
-            </span>
+            </Link>
           </Tooltip>
 
           <DeleteButtonPopover
-            loading={deleteLoading}
-            tooltipTitle={"Hapus kategori"}
-            popoverLabel="Hapus kategori Ini?"
-            onDelete={() => deleteCategory(id)}
-          />
-
-          <SubCategoryFormModal
-            id={id}
-            defaultValues={{ name }}
-            open={updateModal === id}
-            setOpen={setUpdateModal}
+            loading={isLoading}
+            tooltipTitle={"Hapus artikel"}
+            popoverLabel="Hapus artikel ini?"
+            onDelete={() => deletArticle(id)}
           />
         </div>
       ),
@@ -92,8 +83,18 @@ const ThemeSubCategoriesTable = () => {
   return (
     <>
       <div className="mb-4 flex flex-col justify-between gap-4 md:flex-row">
-        <h3 className="text-base text-primary md:text-lg">Data Sub-Kategori</h3>
-        <div>
+        <h3 className="text-base text-primary md:text-lg">Data Artikel</h3>
+
+        <div className="flex gap-4">
+          <Link href={"/admin/artikel/create"}>
+            <Button
+              size="small"
+              variant="contained"
+              endIcon={<MdOutlineAddCircleOutline />}
+            >
+              Tambah Artikel
+            </Button>
+          </Link>
           <TextField
             className="max-w-72 flex-1"
             size="small"
@@ -107,16 +108,6 @@ const ThemeSubCategoriesTable = () => {
             }}
             onChange={(e) => setSearch(e.target.value)}
           />
-
-          <Button
-            className="ml-4"
-            size="small"
-            variant="contained"
-            endIcon={<MdOutlineAddCircleOutline />}
-            onClick={() => setCreateModal(true)}
-          >
-            Tambah Sub-Kategori
-          </Button>
         </div>
       </div>
       <div className="ag-theme-quartz h-[500px] w-full">
@@ -135,16 +126,14 @@ const ThemeSubCategoriesTable = () => {
         </p>
         <IconButton
           className="rotate-180 text-base"
-          disabled={page === Math.ceil(data?.total / 10)}
+          disabled={page >= Math.ceil(data?.total / 10)}
           onClick={() => setPage((prev) => prev + 1)}
         >
           <FaChevronLeft />
         </IconButton>
       </div>
-
-      <SubCategoryFormModal open={createModal} setOpen={setCreateModal} />
     </>
   );
+  // return <DataGrid headCells={headCells} data={[]} />;
 };
-
-export default ThemeSubCategoriesTable;
+export default ArticleTable;

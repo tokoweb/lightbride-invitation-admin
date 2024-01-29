@@ -121,7 +121,7 @@ const ThemeCategoriesTable = () => {
         </div>
       </div>
       <div className="ag-theme-quartz h-[500px] w-full">
-        <AgGridReact columnDefs={columnsDef} rowData={data} />
+        <AgGridReact columnDefs={columnsDef} rowData={data?.results} />
       </div>
       <div className="mt-4 flex w-full items-center justify-end gap-2">
         <IconButton
@@ -132,11 +132,11 @@ const ThemeCategoriesTable = () => {
           <FaChevronLeft />
         </IconButton>
         <p>
-          Page {page} / {Math.ceil(data?.length / 10)}
+          Page {page} / {Math.ceil(data?.total / 10)}
         </p>
         <IconButton
           className="rotate-180 text-base"
-          disabled={page === Math.ceil(data?.length / 10)}
+          disabled={page === Math.ceil(data?.total / 10)}
           onClick={() => setPage((prev) => prev + 1)}
         >
           <FaChevronLeft />

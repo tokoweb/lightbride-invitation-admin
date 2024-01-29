@@ -21,8 +21,6 @@ const useRefreshToken = () => {
       try {
         const response = await refresh({ refreshToken }).unwrap();
 
-        console.log("Token Refreshed");
-
         Cookies.set("token", response.token, { sameSite: "Strict" });
       } catch (err) {
         console.error(err);

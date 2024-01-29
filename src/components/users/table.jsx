@@ -26,8 +26,6 @@ const UsersTable = () => {
   const [search, setSearch] = useDebounce("", 300);
   const { data } = useGetUsersQuery(createPagination({ page, search }));
 
-  console.log(data);
-
   const columnsDef = [
     {
       field: "fullname",

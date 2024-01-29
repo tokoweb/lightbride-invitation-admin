@@ -33,7 +33,7 @@ const UserFormModal = ({ id, open, setOpen }) => {
       trial_date: "",
       active_date: "",
     },
-    resolver: useYupValidationResolver(object(orderSchema)),
+    resolver: useYupValidationResolver(orderSchema),
   });
 
   const { data, isLoading } = useGetOrderQuery(id);
@@ -50,11 +50,13 @@ const UserFormModal = ({ id, open, setOpen }) => {
   );
 
   useFormDefaultValue(
-    {
-      status: data?.status,
-      trial_date: dayjs(data?.trial_date),
-      active_date: dayjs(data?.active_date),
-    },
+    data
+      ? {
+          status: data?.status,
+          trial_date: dayjs(data?.trial_date),
+          active_date: dayjs(data?.active_date),
+        }
+      : undefined,
     setValue,
   );
 

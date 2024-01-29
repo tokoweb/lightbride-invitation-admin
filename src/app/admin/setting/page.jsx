@@ -4,7 +4,7 @@ import Masonry from "@mui/lab/Masonry";
 
 import ContactAdminForm from "@/components/forms/web-setting-forms/contact-admin-form";
 import InvitationSettingForm from "@/components/forms/web-setting-forms/invitation-setting-form";
-import RekeningForm from "@/components/forms/web-setting-forms/rekening-form";
+// import RekeningForm from "@/components/forms/web-setting-forms/rekening-form";
 import SocialMediaForm from "@/components/forms/web-setting-forms/social-media-form";
 
 const Setting = () => {
@@ -18,7 +18,7 @@ const Setting = () => {
         <InvitationSettingForm />
         {/* <ContactAdminForm /> */}
         <SocialMediaForm />
-        <RekeningForm />
+        {/* <RekeningForm /> */}
       </Masonry>
       {/* </div> */}
     </>

@@ -9,7 +9,6 @@ export const middleware = (request, response) => {
   const refreshToken = request.cookies.get("refresh-token");
 
   if (pathname.startsWith("/admin") && (!token || !refreshToken)) {
-    console.log("redirect");
     return NextResponse.redirect(new URL("/login", request.url));
   }
 

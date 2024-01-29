@@ -35,6 +35,9 @@ const colors = {
 };
 
 const theme = createTheme({
+  shape: {
+    borderRadius: 8,
+  },
   typography: { fontFamily: "var(--font-rubik)" },
   palette: colors,
   components: {

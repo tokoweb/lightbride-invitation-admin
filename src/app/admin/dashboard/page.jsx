@@ -17,8 +17,6 @@ import { useGetDashboardQuery } from "@/redux/services/dashboard-api";
 const Dashboard = () => {
   const { data } = useGetDashboardQuery(createPagination({ limit: 100 }));
 
-  console.log(data);
-
   return (
     <>
       <div className="mb-3 flex items-center justify-between px-2">
@@ -50,7 +48,7 @@ const Dashboard = () => {
             <Button variant="contained">{"Lihat Lebih >"}</Button>
           </Link>
         </div>
-        <PaymentTable summary defaultData={data?.payments} />
+        <PaymentTable summary defaultData={data?.payments || []} />
       </div>
     </>
   );

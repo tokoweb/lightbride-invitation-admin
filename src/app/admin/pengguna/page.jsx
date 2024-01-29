@@ -1,6 +1,5 @@
 "use client";
 
-import OrdersTable from "@/components/orders/table";
 import UsersTable from "@/components/users/table";
 
 const Pengguna = () => {

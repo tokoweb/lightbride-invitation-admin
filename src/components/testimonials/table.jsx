@@ -131,11 +131,11 @@ const TestimonialsTable = () => {
           <FaChevronLeft />
         </IconButton>
         <p>
-          Page {page} / {Math.ceil(data?.results.length / 10)}
+          Page {page} / {Math.ceil(data?.total / 10)}
         </p>
         <IconButton
           className="rotate-180 text-base"
-          disabled={page === Math.ceil(data?.results.length / 10)}
+          disabled={page === Math.ceil(data?.total / 10)}
           onClick={() => setPage((prev) => prev + 1)}
         >
           <FaChevronLeft />

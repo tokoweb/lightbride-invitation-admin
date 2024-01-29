@@ -90,3 +90,11 @@
   max-width: none !important;
   max-height: 100% !important;
 }
+
+.tox.tox-tinymce {
+  @apply border-zinc-200 !important;
+}
+
+.tox-promotion {
+  display: none;
+}

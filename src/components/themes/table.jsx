@@ -23,6 +23,7 @@ import { TbEdit } from "react-icons/tb";
 import useMutationHandler from "@/lib/hooks/services/useMutationHandler";
 import useDebounce from "@/lib/hooks/utils/useDebounce";
 import createPagination from "@/lib/utils/createPagination";
+import formatToRp from "@/lib/utils/formatToRp";
 import {
   useDeleteThemeMutation,
   useGetThemesQuery,
@@ -65,6 +66,12 @@ const ThemesTable = () => {
       field: "directory",
       headerName: "Direktori Folder Tema",
       flex: 1,
+    },
+    {
+      field: "price",
+      headerName: "Harga Tema",
+      flex: 1,
+      cellRenderer: ({ data: { price } }) => <span>{formatToRp(price)}</span>,
     },
     {
       field: "action",
@@ -172,7 +179,7 @@ const ThemesTable = () => {
         </div>
       </div>
       <div className="ag-theme-quartz h-[500px] w-full">
-        <AgGridReact columnDefs={columnsDef} rowData={data} />
+        <AgGridReact columnDefs={columnsDef} rowData={data?.results} />
       </div>
       <div className="mt-4 flex w-full items-center justify-end gap-2">
         <IconButton
@@ -183,11 +190,11 @@ const ThemesTable = () => {
           <FaChevronLeft />
         </IconButton>
         <p>
-          Page {page} / {Math.ceil(data?.length / 10)}
+          Page {page} / {Math.ceil(data?.total / 10)}
         </p>
         <IconButton
           className="rotate-180 text-base"
-          disabled={page === Math.ceil(data?.length / 10)}
+          disabled={page === Math.ceil(data?.total / 10)}
           onClick={() => setPage((prev) => prev + 1)}
         >
           <FaChevronLeft />

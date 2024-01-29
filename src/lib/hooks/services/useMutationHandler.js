@@ -4,10 +4,6 @@ import { useCallback } from "react";
 
 import { enqueueSnackbar } from "notistack";
 
-const tes = (a1, a2) => {
-  console.log(a1, a2);
-};
-
 /**
  *
  * @param {*} mutationHook RTK query mutation hook

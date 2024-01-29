@@ -19,6 +19,9 @@ const tags = {
   socialMedia: "Social Media",
   rekening: "Rekening",
   payments: "Payments",
+  setting: "Setting",
+  articles: "Articles",
+  faq: "faq",
 };
 
 export default tags;

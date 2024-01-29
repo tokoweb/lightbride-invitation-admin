@@ -9,6 +9,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormHelperText from "@mui/material/FormHelperText";
 import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 
 import { object } from "prop-types";
@@ -36,6 +37,7 @@ const ThemeFormModal = ({ defaultValues, id, open, setOpen }) => {
     defaultValues: {
       image: defaultValues?.image,
       name_theme: defaultValues?.name_theme,
+      price: defaultValues?.price,
       directory: defaultValues?.directory,
       theme_category_id: defaultValues?.theme_category_id,
       theme_sub_category_id: defaultValues?.theme_sub_category_id,
@@ -50,12 +52,13 @@ const ThemeFormModal = ({ defaultValues, id, open, setOpen }) => {
   );
 
   const categoriesOption = useMemo(
-    () => categoriesList?.map(({ name, id }) => ({ id, name })) || [],
+    () => categoriesList?.results.map(({ name, id }) => ({ id, name })) || [],
     [categoriesList],
   );
 
   const subCategoriesOption = useMemo(
-    () => subCategoriesList?.map(({ name, id }) => ({ id, name })) || [],
+    () =>
+      subCategoriesList?.results.map(({ name, id }) => ({ id, name })) || [],
     [subCategoriesList],
   );
 
@@ -92,8 +95,6 @@ const ThemeFormModal = ({ defaultValues, id, open, setOpen }) => {
             theme_category_id: d.theme_category_id.id,
             theme_sub_category_id: d.theme_sub_category_id?.id || "",
           });
-
-          console.log(d);
 
           if (defaultValues && id) {
             updateTheme({
@@ -153,6 +154,28 @@ const ThemeFormModal = ({ defaultValues, id, open, setOpen }) => {
                   size="small"
                   placeholder="Masukan nama tema baru"
                   className="mt-1 w-full"
+                  {...field}
+                />
+              )}
+            />
+          </div>
+
+          <div>
+            <p>Harga tema</p>
+            <FormControlWrapper
+              name={"price"}
+              control={control}
+              render={(field) => (
+                <TextField
+                  size="small"
+                  placeholder="Masukan harga tema"
+                  className="mt-1 w-full"
+                  type="number"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">Rp</InputAdornment>
+                    ),
+                  }}
                   {...field}
                 />
               )}

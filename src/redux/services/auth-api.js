@@ -15,6 +15,7 @@ const authApi = baseApi
         }),
         transformResponse: (result) => result.data,
         transformErrorResponse: (result) => result.data,
+        providesTags: [tags.auth],
       }),
 
       login: builder.mutation({
@@ -37,15 +38,15 @@ const authApi = baseApi
         transformErrorResponse: (result) => result.data,
       }),
 
-      refresh: builder.mutation({
-        query: (data) => ({
-          url: "/users/refresh-token",
-          method: "POST",
-          body: new URLSearchParams(data),
-        }),
-        transformResponse: (result) => result.data,
-        transformErrorResponse: (result) => result.data,
-      }),
+      // refresh: builder.mutation({
+      //   query: (data) => ({
+      //     url: "/users/refresh-token",
+      //     method: "POST",
+      //     body: new URLSearchParams(data),
+      //   }),
+      //   transformResponse: (result) => result.data,
+      //   transformErrorResponse: (result) => result.data,
+      // }),
 
       logout: builder.mutation({
         query: () => ({
@@ -55,6 +56,17 @@ const authApi = baseApi
         transformResponse: (result) => result.data,
         transformErrorResponse: (result) => result.data,
       }),
+
+      updateProfile: builder.mutation({
+        query: (data) => ({
+          url: "/users",
+          method: "PATCH",
+          body: data,
+        }),
+        transformResponse: (result) => result.data,
+        transformErrorResponse: (result) => result.data,
+        invalidatesTags: [tags.auth],
+      }),
     }),
   });
 
@@ -62,6 +74,7 @@ export const {
   useWhoIAmQuery,
   useLoginMutation,
   useRegisterMutation,
-  useRefreshMutation,
+  // useRefreshMutation,
   useLogoutMutation,
+  useUpdateProfileMutation,
 } = authApi;

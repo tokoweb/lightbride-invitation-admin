@@ -19,6 +19,7 @@ import { FaChevronLeft } from "react-icons/fa6";
 import useMutationHandler from "@/lib/hooks/services/useMutationHandler";
 import useDebounce from "@/lib/hooks/utils/useDebounce";
 import createPagination from "@/lib/utils/createPagination";
+import formatToRp from "@/lib/utils/formatToRp";
 import { useGetPaymentsQuery } from "@/redux/services/payment-api";
 import { useDeleteCategoryMutation } from "@/redux/services/theme-categories";
 
@@ -53,6 +54,7 @@ const PaymentTable = ({ summary = false, defaultData }) => {
       field: "amount",
       headerName: "Harga",
       flex: 1,
+      cellRenderer: ({ data: { amount } }) => <span>{formatToRp(amount)}</span>,
     },
     {
       field: "status",
@@ -99,7 +101,7 @@ const PaymentTable = ({ summary = false, defaultData }) => {
     <>
       {!summary && (
         <div className="mb-4 flex flex-col justify-between gap-4 md:flex-row">
-          <h3 className="text-base text-primary md:text-lg">Data Pengguna</h3>
+          <h3 className="text-base text-primary md:text-lg">Data Pembayaran</h3>
           <TextField
             className="max-w-72 flex-1"
             size="small"
@@ -118,7 +120,7 @@ const PaymentTable = ({ summary = false, defaultData }) => {
       <div className="ag-theme-quartz h-[500px] w-full">
         <AgGridReact
           columnDefs={columnsDef}
-          rowData={defaultData || data || []}
+          rowData={defaultData || data?.results || []}
         />
       </div>
       {!summary && (
@@ -131,11 +133,11 @@ const PaymentTable = ({ summary = false, defaultData }) => {
             <FaChevronLeft />
           </IconButton>
           <p>
-            Page {page} / {Math.ceil(data?.length / 10)}
+            Page {page} / {Math.ceil(data?.total / 10)}
           </p>
           <IconButton
             className="rotate-180 text-base"
-            disabled={page === Math.ceil(data?.length / 10)}
+            disabled={page === Math.ceil(data?.total / 10)}
             onClick={() => setPage((prev) => prev + 1)}
           >
             <FaChevronLeft />

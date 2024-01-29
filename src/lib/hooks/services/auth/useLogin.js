@@ -25,6 +25,8 @@ const useLogin = () => {
           enqueueSnackbar("Akun anda tidak punya akses", {
             variant: "error",
           });
+
+          return;
         }
 
         Cookies.set("token", result.token, { sameSite: "Strict" });

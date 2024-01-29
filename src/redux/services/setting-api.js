@@ -3,34 +3,33 @@
 import tags from "@/constant/tags";
 import baseApi from "@/redux/base-api";
 
-const socialMediaApi = baseApi
+const settingApi = baseApi
   .enhanceEndpoints({
-    addTagTypes: [tags.socialMedia],
+    addTagTypes: [tags.setting],
   })
   .injectEndpoints({
     overrideExisting: module.hot?.status() === "apply",
     endpoints: (builder) => ({
-      getSocialMedia: builder.query({
+      getSetting: builder.query({
         query: () => ({
-          url: "/admins/media",
+          url: "/admins/settings",
           method: "GET",
         }),
         transformResponse: (result) => result.data,
         transformErrorResponse: (result) => result.data,
-        providesTags: [tags.socialMedia],
+        providesTags: [tags.setting],
       }),
-      updateSocialMedia: builder.mutation({
+      updateSetting: builder.mutation({
         query: (data) => ({
-          url: "/admins/media",
+          url: "/admins/settings",
           method: "POST",
           body: data,
         }),
         transformResponse: (result) => result.data,
         transformErrorResponse: (result) => result.data,
-        providesTags: [tags.socialMedia],
+        providesTags: [tags.setting],
       }),
     }),
   });
 
-export const { useGetSocialMediaQuery, useUpdateSocialMediaMutation } =
-  socialMediaApi;
+export const { useGetSettingQuery, useUpdateSettingMutation } = settingApi;

@@ -89,19 +89,19 @@ const OrdersTable = () => {
     {
       field: "action",
       headerName: "Aksi",
-      width: 100,
+      width: 70,
       resizable: false,
       lockPosition: "right",
       sortable: false,
       cellRenderer: ({ data: { id } }) => (
         <div className="flex w-full justify-end">
-          <Tooltip title="Ubah tema">
+          {/* <Tooltip title="Ubah tema">
             <span>
               <IconButton onClick={() => setUpdateModal(id)}>
                 <TbEdit />
               </IconButton>
             </span>
-          </Tooltip>
+          </Tooltip> */}
 
           <DeleteButtonPopover
             loading={deleteLoading}
