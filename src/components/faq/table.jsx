@@ -91,7 +91,7 @@ const FaqTable = () => {
               variant="contained"
               endIcon={<MdOutlineAddCircleOutline />}
             >
-              Tambah Artikel
+              Tambah Faq
             </Button>
           </Link>
 

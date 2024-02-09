@@ -3,7 +3,6 @@
 // import ArticleForm from "@/components/forms/article-forms/article-form";
 import { useEffect, useState } from "react";
 
-import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 
 import { skipToken } from "@reduxjs/toolkit/query/react";
