@@ -35,7 +35,7 @@ jobs:
           cmd: build
               
       - name: Compress Build
-        run: tar --exclude=build.tar.gz  -czf build.tar.gz .
+        run: tar --exclude=build.tar.gz -zcvf build.tar.gz .
           
       - name: rsync Deployments
         uses: burnett01/rsync-deployments@6.0.0
