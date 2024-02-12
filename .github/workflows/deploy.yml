@@ -39,8 +39,36 @@ jobs:
         with:
           switches: -avzr --delete
           path: .
-          remote_path: ${{ secrets.DIR }}
+          remote_path: ${{ secrets.DIR }}/src
           remote_host: ${{ secrets.HOST }}
           remote_user: ${{ secrets.USERNAME }}
           remote_key: ${{ secrets.PRIVATE_KEY }}
           remote_port: ${{ secrets.PORT }}
+
+      - name: Deploy app
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: ${{ secrets.PORT }}
+          timeout: 30s
+          command_timeout: 10m
+          proxy_timeout: 30s
+          script_stop: true
+          script: |
+            cd ${{ secrets.DIR }} || exit 1
+            current_timestamp=$(date +%Y-%m-%d_%H-%M-%S)
+            previous_timestamp=$(ls -d * | grep -Eo '[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}-[0-9]{2}' | sort | tail -n 1)
+            cp -R ${{ secrets.DIR }}/src $current_timestamp
+            if [ -h "build" ]; then
+              unlink build || exit 1
+              echo "Symlink 'build' found and unlinked."
+            else
+              ln -s $current_timestamp build || exit 1
+              echo "Symlink build"
+            fi
+
+            if [ -n "$previous_timestamp" ]; then
+              rm -rf $previous_timestamp || exit 1
+            fi
