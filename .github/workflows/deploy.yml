@@ -35,7 +35,7 @@ jobs:
           cmd: build
               
       - name: Compress Build
-        run: tar --warning=no-file-changed -zcvf build.tar.gz .
+        run: tar --warning=no-file-changed -zcf build.tar.gz .
           
       - name: rsync Deployments
         uses: burnett01/rsync-deployments@6.0.0
