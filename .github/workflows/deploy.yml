@@ -43,7 +43,7 @@ jobs:
         uses: burnett01/rsync-deployments@6.0.0
         with:
           switches: -avzr
-          path: build.tar.gz
+          path: build/build.tar.gz
           remote_path: ${{ secrets.DIR }}/src
           remote_host: ${{ secrets.HOST }}
           remote_user: ${{ secrets.USERNAME }}
