@@ -35,7 +35,7 @@ jobs:
           cmd: build
               
       - name: Compress Build
-        run: tar -cvzf build.tar.gz .
+        run: tar -czf build.tar.gz .
           
       - name: rsync Deployments
         uses: burnett01/rsync-deployments@6.0.0
@@ -69,6 +69,7 @@ jobs:
               rm build.tar.gz || exit 1
             else
               echo "File 'build.tar.gz' does not exist, nothing to extract."
+              exit 1
             fi
             
             cp -R ${{ secrets.DIR }}/src $current_timestamp
