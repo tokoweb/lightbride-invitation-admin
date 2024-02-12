@@ -67,7 +67,7 @@ jobs:
             previous_timestamp=$(ls -d * | grep -Eo '[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}-[0-9]{2}' | sort | tail -n 1)
             
             if [ -e "build.tar.gz" ]; then
-              tar -xvf build.tar.gz -C || exit 1
+              tar -xvf build.tar.gz || exit 1
               rm build.tar.gz || exit 1
             else
               echo "File 'build.tar.gz' does not exist, nothing to extract."
