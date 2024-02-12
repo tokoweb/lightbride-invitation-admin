@@ -32,4 +32,4 @@ jobs:
       - name: Build Production Bundle
         uses: borales/actions-yarn@v4
         with:
-          cmd: yarn build
+          cmd: build
