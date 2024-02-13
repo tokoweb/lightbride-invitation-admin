@@ -69,17 +69,6 @@ jobs:
             if [ -e "build.tar.gz" ]; then
               tar -xvf build.tar.gz 
               rm build.tar.gz 
-            else
-              echo "File 'build.tar.gz' does not exist, nothing to extract."
-              exit 1
             fi
             
             cp -R ${{ secrets.DIR }}/src $current_timestamp
-            
-            if [ -h "build" ]; then
-              unlink build 
-              echo "Symlink 'build' found and unlinked."
-            else
-              ln -s $current_timestamp build
-              echo "Symlink build"
-            fi
