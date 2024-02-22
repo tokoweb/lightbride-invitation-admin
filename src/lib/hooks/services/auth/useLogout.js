@@ -13,14 +13,14 @@ const useLogout = () => {
   const logoutHandlder = useCallback(async () => {
     try {
       await logout().unwrap();
-
-      Cookies.remove("token");
-      Cookies.remove("refresh-token");
-
-      router.push("/login");
     } catch (err) {
       console.log(err);
     }
+
+    Cookies.remove("token");
+    Cookies.remove("refresh-token");
+
+    router.push("/login");
   }, []);
 
   return [logoutHandlder, { isLoading }];

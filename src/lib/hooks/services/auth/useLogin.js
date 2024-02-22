@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import Cookies from "js-cookie";
 import { enqueueSnackbar } from "notistack";
@@ -11,6 +11,8 @@ import { useLoginMutation } from "@/redux/services/auth-api";
 
 const useLogin = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [login, { isLoading, isSuccess }] = useLoginMutation();
   const [errMessage, setErrMessage] = useState("");
 
@@ -21,13 +23,7 @@ const useLogin = () => {
       try {
         const result = await login(payload).unwrap();
 
-        if (result.role === "member") {
-          enqueueSnackbar("Akun anda tidak punya akses", {
-            variant: "error",
-          });
-
-          return;
-        }
+        if (!result.role === "admin") throw new Error("You don't have access");
 
         Cookies.set("token", result.token, { sameSite: "Strict" });
         Cookies.set("refresh-token", result.refresh_token, {
@@ -39,9 +35,14 @@ const useLogin = () => {
             variant: "success",
           });
 
-        if (redirect) router.push("/admin/dashboard");
+        if (!redirect) return;
+
+        if (searchParams.get("fallback")) {
+          router.push(searchParams.get("fallback"));
+        } else {
+          router.push("/user/dashboard");
+        }
       } catch (err) {
-        console.log(err);
         setErrMessage(err.message);
       }
     },

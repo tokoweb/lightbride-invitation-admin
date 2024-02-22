@@ -1,5 +1,3 @@
-import { redirect } from "next/navigation";
-
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Mutex } from "async-mutex";
 import Cookies from "js-cookie";
@@ -22,10 +20,16 @@ const getRefreshedToken = async () => {
 
   if (!refreshToken) throw "Cannot find refresh-token";
 
+  const pathname = window?.location?.pathname;
+
   const result = await fetch(`${baseUrl}/users/refresh-token`, {
     method: "POST",
     body: new URLSearchParams({ refreshToken }),
-  }).then((res) => res.json());
+    cache: "no-store",
+  }).then((res) => {
+    if (res.status === 200) return res.json();
+    return null;
+  });
 
   if (result.code === 200) {
     Cookies.set("token", result.data.token);
@@ -33,9 +37,7 @@ const getRefreshedToken = async () => {
     Cookies.remove("token");
     Cookies.remove("refresh-token");
 
-    const pathname = window?.location?.pathname;
-
-    redirect(`/login${pathname ? `?fallback=${pathname}` : ""}`);
+    window.location.href = `/login${pathname ? `?fallback=${pathname}` : ""}`;
   }
 };
 
