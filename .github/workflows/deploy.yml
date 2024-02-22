@@ -2,22 +2,50 @@ name: CD
 
 on:
   push:
-    branches: [ "dev/frama" ]
+    branches: 
+      - "dev/frama"
 
 jobs:
-  DEPLOY:
-    runs-on: ubuntu-22.04
-
+  build:
+    runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Set env vars (dev/frama)
-        if: endsWith(github.ref, 'dev/frama')
+      - name: Set Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Create env file
         run: |
-          echo "RUNNING ON dev/frama"
-          echo "BRANCH=dev/frama" >> $GITHUB_ENV
+          echo "API_BASE_URL='${{ secrets.NEXT_PUBLIC_API_BASE_URL }}'" > .env
+          echo "NEXT_PUBLIC_APP_NAME='${{ secrets.NEXT_PUBLIC_APP_NAME }}'" >> .env
+        shell: bash
 
-      - name: SSH and deploy app
+      - name: Run Yarn Install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+
+      - name: Build Production Bundle
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build
+          
+      - name: rsync Deployments
+        uses: burnett01/rsync-deployments@6.0.0
+        with:
+          switches: -azr --exclude="node_modules"
+          path: .
+          remote_path: ${{ secrets.DIR }}/src
+          remote_host: ${{ secrets.HOST }}
+          remote_user: ${{ secrets.USERNAME }}
+          remote_key: ${{ secrets.PRIVATE_KEY }}
+          remote_port: ${{ secrets.PORT }}
+
+      - name: Deploy app
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -29,5 +57,10 @@ jobs:
           proxy_timeout: 30s
           script_stop: true
           script: |
-            cd ${{ secrets.PATH }}
-            timeout 10m bash deploy.sh ${{ env.BRANCH }}
+            cd ${{ secrets.DIR }}/src
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+            nvm use 20
+            pm2 startOrRestart ecosystem.config.js --env prod
+            pm2 save --force
