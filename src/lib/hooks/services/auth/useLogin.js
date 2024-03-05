@@ -40,7 +40,7 @@ const useLogin = () => {
         if (searchParams.get("fallback")) {
           router.push(searchParams.get("fallback"));
         } else {
-          router.push("/user/dashboard");
+          router.push("/admin/dashboard");
         }
       } catch (err) {
         setErrMessage(err.message);
